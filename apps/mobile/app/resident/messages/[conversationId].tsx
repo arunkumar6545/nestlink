@@ -7,7 +7,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
-import { getInitials, formatRelative } from "@nestlink/core";
+import { getInitials, formatRelative } from "@/lib/utils";
 
 interface DMessage {
   id: string;

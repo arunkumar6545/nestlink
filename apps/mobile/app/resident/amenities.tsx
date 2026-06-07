@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
-import type { AmenitySlot } from "@nestlink/core";
+import type { AmenitySlot } from "@/lib/utils";
 
 const amenityEmojis: Record<string, string> = {
   "Swimming Pool": "🏊",

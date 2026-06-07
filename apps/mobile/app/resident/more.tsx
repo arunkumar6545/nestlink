@@ -2,7 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
 import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "@/hooks/useAuth";
-import { getInitials } from "@nestlink/core";
+import { getInitials } from "@/lib/utils";
 
 const menuItems = [
   { emoji: "📢", label: "Notices", href: "/resident/notices" },

@@ -12,7 +12,7 @@ import { useMutation } from "@tanstack/react-query";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
-import { formatDateTime } from "@nestlink/core";
+import { formatDateTime } from "@/lib/utils";
 
 interface ScanResult {
   visitor_name: string;

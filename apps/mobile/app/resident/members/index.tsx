@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
-import { getInitials } from "@nestlink/core";
+import { getInitials } from "@/lib/utils";
 
 const ROLE_COLORS: Record<string, string> = {
   admin: "#7c3aed", resident: "#0284c7",

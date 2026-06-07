@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
-import { formatRelative } from "@nestlink/core";
+import { formatRelative } from "@/lib/utils";
 
 const typeColors: Record<string, { bg: string; text: string; border: string }> = {
   urgent: { bg: "#fee2e2", text: "#991b1b", border: "#fecaca" },

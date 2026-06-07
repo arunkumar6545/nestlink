@@ -7,7 +7,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
-import { formatRelative } from "@nestlink/core";
+import { formatRelative } from "@/lib/utils";
 
 type Tab = "members" | "requests" | "invites";
 

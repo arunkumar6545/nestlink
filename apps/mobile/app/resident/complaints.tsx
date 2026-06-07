@@ -13,7 +13,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
-import { complaintCategories, formatRelative } from "@nestlink/core";
+import { complaintCategories, formatRelative } from "@/lib/utils";
 
 const statusColors: Record<string, string> = {
   open: "#ef4444",

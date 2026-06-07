@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
-import { formatCurrency } from "@nestlink/core";
+import { formatCurrency } from "@/lib/utils";
 
 interface StatCardProps { title: string; value: string | number; emoji: string; color: string }
 

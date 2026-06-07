@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
-import { formatRelative } from "@nestlink/core";
+import { formatRelative } from "@/lib/utils";
 
 export default function AdminNoticesScreen() {
   const { profile } = useAuth();

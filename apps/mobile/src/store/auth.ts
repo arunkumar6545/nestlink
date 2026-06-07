@@ -1,6 +1,16 @@
 import { create } from "zustand";
 import type { User, Session } from "@supabase/supabase-js";
-import type { UserRole } from "@nestlink/supabase";
+
+type UserRole =
+  | "resident"
+  | "admin"
+  | "guard"
+  | "staff"
+  | "super_admin"
+  | "hoa_president"
+  | "hoa_secretary"
+  | "hoa_treasurer"
+  | "hoa_member";
 
 interface UserProfile {
   id: string;

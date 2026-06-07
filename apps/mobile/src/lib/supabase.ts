@@ -4,8 +4,7 @@ import Constants from "expo-constants";
 
 // Local Supabase defaults — safe fallback so createClient never throws
 const LOCAL_URL = "http://127.0.0.1:54321";
-const LOCAL_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRFA0NiK7UFDpLC9jcX-4XzKzFUEhYqalIJBDP9KaFQ";
+const LOCAL_ANON_KEY = "sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH";
 
 export const supabaseUrl: string =
   (Constants.expoConfig?.extra?.supabaseUrl as string) ||

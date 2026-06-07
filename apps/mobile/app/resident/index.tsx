@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
-import { formatCurrency, formatRelative } from "@nestlink/core";
+import { formatCurrency, formatRelative } from "@/lib/utils";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const quickLinks = [

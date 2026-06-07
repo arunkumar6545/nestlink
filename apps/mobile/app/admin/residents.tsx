@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
-import { getInitials, formatDate } from "@nestlink/core";
+import { getInitials, formatDate } from "@/lib/utils";
 
 export default function AdminResidentsScreen() {
   const { profile } = useAuth();

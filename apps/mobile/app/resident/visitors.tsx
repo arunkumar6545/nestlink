@@ -13,7 +13,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
-import { generateOtp, generateQrToken, formatDateTime } from "@nestlink/core";
+import { generateOtp, generateQrToken, formatDateTime } from "@/lib/utils";
 
 export default function VisitorsScreen() {
   const { profile } = useAuth();

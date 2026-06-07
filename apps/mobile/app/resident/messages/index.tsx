@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
-import { getInitials, formatRelative } from "@nestlink/core";
+import { getInitials, formatRelative } from "@/lib/utils";
 
 export default function MessagesScreen() {
   const { profile } = useAuth();

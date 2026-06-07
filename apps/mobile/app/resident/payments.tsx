@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
-import { formatCurrency, formatDate, formatPeriod } from "@nestlink/core";
+import { formatCurrency, formatDate, formatPeriod } from "@/lib/utils";
 
 const statusColors: Record<string, { bg: string; text: string }> = {
   pending: { bg: "#fef3c7", text: "#92400e" },

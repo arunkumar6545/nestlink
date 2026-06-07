@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
-import { getInitials } from "@nestlink/core";
+import { getInitials } from "@/lib/utils";
 
 const categoryEmojis: Record<string, string> = {
   maid: "🧹",
