@@ -76,16 +76,20 @@ BEGIN
   DELETE FROM user_profiles WHERE phone = ceo_phone AND id != ceo_id;
 
   -- ── auth.users ────────────────────────────────────────────────
-  -- The on_auth_user_created trigger fires on INSERT (not on
-  -- ON CONFLICT DO UPDATE), creating a minimal profile.
-  -- We immediately upsert the real profile after.
+  -- GoTrue (auth service) requires token fields to be '' not NULL.
+  -- Set all of them to empty string explicitly.
   INSERT INTO auth.users (
     id, instance_id, aud, role, email,
     encrypted_password,
     email_confirmed_at,
     raw_app_meta_data, raw_user_meta_data,
     created_at, updated_at,
-    is_sso_user, is_anonymous, deleted_at
+    is_sso_user, is_anonymous, deleted_at,
+    -- GoTrue scans these as string; must be '' not NULL
+    confirmation_token, recovery_token,
+    email_change_token_new, email_change,
+    email_change_token_current, reauthentication_token,
+    phone_change, phone_change_token
   ) VALUES (
     ceo_id,
     '00000000-0000-0000-0000-000000000000',
@@ -96,13 +100,22 @@ BEGIN
     '{"provider":"email","providers":["email"]}'::jsonb,
     '{"name":"Nestlink CEO","full_name":"Nestlink CEO"}'::jsonb,
     NOW(), NOW(),
-    false, false, NULL
+    false, false, NULL,
+    '', '', '', '', '', '', '', ''
   )
   ON CONFLICT (id) DO UPDATE
-    SET encrypted_password = crypt(ceo_pass, gen_salt('bf')),
-        email              = ceo_email,
-        email_confirmed_at = COALESCE(auth.users.email_confirmed_at, NOW()),
-        updated_at         = NOW();
+    SET encrypted_password        = crypt(ceo_pass, gen_salt('bf')),
+        email                     = ceo_email,
+        email_confirmed_at        = COALESCE(auth.users.email_confirmed_at, NOW()),
+        confirmation_token        = '',
+        recovery_token            = '',
+        email_change_token_new    = '',
+        email_change              = '',
+        email_change_token_current= '',
+        reauthentication_token    = '',
+        phone_change              = '',
+        phone_change_token        = '',
+        updated_at                = NOW();
 
   -- ── auth.identities (required for signInWithPassword) ─────────
   INSERT INTO auth.identities (
