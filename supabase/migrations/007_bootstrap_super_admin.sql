@@ -1,0 +1,20 @@
+-- ══════════════════════════════════════════════════════════════════
+-- Migration 007: Bootstrap Super Admin
+-- ══════════════════════════════════════════════════════════════════
+-- This migration does NOT create the super admin automatically.
+-- Run the SQL below AFTER the first user has signed up via OTP:
+--
+--   SELECT promote_to_super_admin('+91XXXXXXXXXX');
+--
+-- Replace +91XXXXXXXXXX with the super admin's phone number.
+-- You can also run this directly in the Supabase SQL editor.
+--
+-- To check current super admins:
+--   SELECT id, name, phone, role FROM user_profiles WHERE role = 'super_admin';
+--
+-- To demote (change back to admin):
+--   UPDATE user_profiles SET role = 'admin' WHERE phone = '+91XXXXXXXXXX';
+-- ══════════════════════════════════════════════════════════════════
+
+-- Example: uncomment and replace phone to bootstrap in dev/CI
+-- SELECT promote_to_super_admin('+919999999999');

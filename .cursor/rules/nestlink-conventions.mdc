@@ -1,0 +1,83 @@
+---
+description: Nestlink project conventions — monorepo structure, code patterns, Supabase usage
+alwaysApply: true
+---
+
+# Nestlink Project Conventions
+
+## Monorepo Layout
+
+- `apps/web` — React + Vite web app (admin + resident portal)
+- `apps/mobile` — Expo React Native app (iOS + Android)
+- `packages/core` — Shared Zod schemas, types, utils (import as `@nestlink/core`)
+- `packages/supabase` — DB types (import as `@nestlink/supabase`)
+- `supabase/migrations/` — SQL migrations (numbered: `001_`, `002_`)
+- `supabase/functions/` — Deno Edge Functions
+
+## Local Supabase
+
+Always connect to local Supabase during development:
+- URL: `http://127.0.0.1:54321`
+- Anon key: from `supabase status`
+- `.env.local` must use these local values
+
+## Code Patterns
+
+### Supabase Queries (web)
+```typescript
+// Always use the shared supabase client from @/lib/supabase
+import { supabase } from "@/lib/supabase";
+
+// Wrap in useQuery — never fetch in component body
+const { data } = useQuery({
+  queryKey: ["key", dependency],
+  queryFn: async () => {
+    const { data, error } = await supabase.from("table").select("*");
+    if (error) throw error;
+    return data;
+  },
+});
+```
+
+### Mutations
+```typescript
+const mutation = useMutation({
+  mutationFn: async (payload) => { /* ... */ },
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["key"] });
+    toast.success("Done");
+  },
+  onError: (e: Error) => toast.error(e.message),
+});
+```
+
+### New Page (web)
+- Add route in `apps/web/src/App.tsx`
+- Add nav item in `apps/web/src/components/layout/Sidebar.tsx`
+- Add to global search entries in `apps/web/src/components/shared/CommandPalette.tsx`
+
+### New Screen (mobile)
+- File goes in `apps/mobile/app/<role>/<screen>.tsx`
+- Add to tab layout in `apps/mobile/app/<role>/_layout.tsx`
+
+## Realtime Subscriptions
+Use the shared `useRealtimeQuery` hook for tables that need live updates:
+```typescript
+import { useRealtimeQuery } from "@/hooks/useRealtimeQuery";
+const { data } = useRealtimeQuery("complaints", { queryKey, queryFn, pollIntervalMs: 15_000 });
+```
+
+## After Starting the Dev Server
+
+Always verify the app launched by checking for the title text:
+```bash
+curl -s http://localhost:3000/ | grep -o '<title>Nestlink</title>'
+# Expected output: <title>Nestlink</title>
+```
+If the command returns nothing, the server hasn't started or crashed. Check `pnpm dev` output.
+
+## Multi-Society
+- Active society stored in `useSocietyStore` (Zustand, persisted)
+- Use `useSocietyStore(s => s.activeSocietyId)` in page queries instead of `profile.society_id`
+- Admin can create new societies at `/admin/societies/new`
+- Switcher lives in the sidebar — `<SocietySwitcher />`

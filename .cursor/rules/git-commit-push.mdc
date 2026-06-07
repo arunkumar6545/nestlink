@@ -1,0 +1,63 @@
+---
+description: Always commit and push changes to origin after completing any task, with conventional commit messages
+alwaysApply: true
+---
+
+# Git: Commit & Push After Every Task
+
+After completing **any code change**, always run the full git workflow:
+
+## Workflow
+
+```bash
+git add -A
+git commit -m "<type>(<scope>): <short description>"
+git push origin HEAD
+```
+
+## Commit Message Format (Conventional Commits)
+
+```
+<type>(<scope>): <imperative, lowercase summary under 72 chars>
+
+[optional body: explain WHY, not WHAT]
+```
+
+### Types
+
+| Type | When to use |
+|------|-------------|
+| `feat` | New feature or screen |
+| `fix` | Bug fix |
+| `refactor` | Code restructure, no behavior change |
+| `style` | UI/CSS-only changes |
+| `chore` | Deps, config, tooling |
+| `db` | Migration, schema, RLS policy changes |
+| `docs` | README, comments |
+
+### Scopes (Nestlink-specific)
+
+`web`, `mobile`, `supabase`, `core`, `auth`, `visitors`, `complaints`, `billing`, `amenities`, `guard`, `notifications`
+
+## Examples
+
+```bash
+# New feature
+git commit -m "feat(web): add global command-palette search"
+
+# Bug fix
+git commit -m "fix(mobile): correct OTP input max-length on Android"
+
+# DB migration
+git commit -m "db(supabase): add RLS policy for amenity_bookings"
+
+# Multiple files, one scope
+git commit -m "feat(visitors): generate QR pass and notify resident on creation"
+```
+
+## Rules
+
+- **Never** skip push after implementing a feature — always `git push origin HEAD`
+- If on a feature branch, push that branch: `git push origin <branch-name>`
+- Include a body if the change is non-obvious or has trade-offs
+- After pushing, confirm with: `git log --oneline -3`
