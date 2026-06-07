@@ -1,7 +1,10 @@
 // @ts-nocheck
 import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Settings, Zap, CheckCircle2, Building2, CreditCard } from "lucide-react";
+import { Settings, Zap, CheckCircle2, Building2, CreditCard, AlertTriangle } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/hooks/useAuth";
 
 const PLANS = ["trial", "free", "pro", "enterprise"];
 
@@ -21,8 +24,59 @@ const FEATURE_LABELS = [
 ];
 
 export default function SettingsPage() {
+  const { profile } = useAuth();
+  const qc = useQueryClient();
   const [features, setFeatures] = useState(DEFAULT_FEATURES);
   const [saved, setSaved]       = useState(false);
+
+  // ─── Maintenance mode ─────────────────────────────────────────
+  const { data: maintenanceSetting } = useQuery({
+    queryKey: ["platform-settings", "maintenance_mode"],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("platform_settings")
+        .select("key, value")
+        .in("key", ["maintenance_mode", "maintenance_message"])
+        .order("key");
+      return data ?? [];
+    },
+  });
+
+  const maintenanceOn = maintenanceSetting?.find((s) => s.key === "maintenance_mode")?.value === true;
+  const maintenanceMsg = maintenanceSetting?.find((s) => s.key === "maintenance_message")?.value ?? "";
+
+  const [maintenanceMessage, setMaintenanceMessage] = useState<string | null>(null);
+
+  const toggleMaintenance = useMutation({
+    mutationFn: async (on: boolean) => {
+      const { error } = await supabase
+        .from("platform_settings")
+        .upsert([
+          { key: "maintenance_mode", value: on, updated_by: profile?.id, updated_at: new Date().toISOString() },
+        ]);
+      if (error) throw error;
+    },
+    onSuccess: (_, on) => {
+      toast.success(on ? "Maintenance mode enabled" : "Maintenance mode disabled");
+      qc.invalidateQueries({ queryKey: ["platform-settings"] });
+    },
+    onError: (e: any) => toast.error(e.message ?? "Failed"),
+  });
+
+  const saveMaintenanceMessage = useMutation({
+    mutationFn: async (msg: string) => {
+      const { error } = await supabase
+        .from("platform_settings")
+        .upsert([{ key: "maintenance_message", value: msg, updated_by: profile?.id, updated_at: new Date().toISOString() }]);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Maintenance message saved");
+      setMaintenanceMessage(null);
+      qc.invalidateQueries({ queryKey: ["platform-settings"] });
+    },
+    onError: (e: any) => toast.error(e.message ?? "Failed"),
+  });
 
   function toggle(plan: string, key: string) {
     setFeatures((prev) => ({
@@ -43,6 +97,51 @@ export default function SettingsPage() {
       <div>
         <h1 className="text-2xl font-bold text-white">Platform Settings</h1>
         <p className="text-slate-400 text-sm mt-1">Configure feature availability by plan and other platform defaults</p>
+      </div>
+
+      {/* ── Maintenance Mode ─────────────────────────────────── */}
+      <div id="maintenance" className={`rounded-2xl border p-5 space-y-4 ${maintenanceOn ? "border-amber-700/50 bg-amber-500/5" : "border-violet-900/20 bg-[#13131f]"}`}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <AlertTriangle className={`h-4 w-4 ${maintenanceOn ? "text-amber-400" : "text-slate-500"}`} />
+            <h3 className={`text-sm font-semibold ${maintenanceOn ? "text-amber-300" : "text-white"}`}>
+              Maintenance Mode
+            </h3>
+            {maintenanceOn && (
+              <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-700/30 animate-pulse">
+                ACTIVE
+              </span>
+            )}
+          </div>
+          <button
+            onClick={() => toggleMaintenance.mutate(!maintenanceOn)}
+            disabled={toggleMaintenance.isPending}
+            className={`relative h-6 w-11 rounded-full transition-colors disabled:opacity-50 ${maintenanceOn ? "bg-amber-500" : "bg-slate-700"}`}
+          >
+            <span className={`absolute top-1 h-4 w-4 rounded-full bg-white shadow transition-transform ${maintenanceOn ? "translate-x-5" : "translate-x-1"}`} />
+          </button>
+        </div>
+        <p className="text-xs text-slate-400">
+          When enabled, a maintenance banner is shown to all society residents. Super admins can still log in.
+        </p>
+        <div>
+          <label className="block text-xs text-slate-400 mb-1.5">Maintenance Message</label>
+          <div className="flex gap-2">
+            <input
+              value={maintenanceMessage ?? String(maintenanceMsg)}
+              onChange={(e) => setMaintenanceMessage(e.target.value)}
+              placeholder="Message shown to residents…"
+              className="flex-1 px-3 py-2 rounded-lg bg-slate-800/60 border border-slate-700/40 text-slate-200 text-sm focus:outline-none focus:border-violet-500/50"
+            />
+            <button
+              onClick={() => saveMaintenanceMessage.mutate(maintenanceMessage ?? String(maintenanceMsg))}
+              disabled={saveMaintenanceMessage.isPending}
+              className="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium disabled:opacity-50 transition-colors"
+            >
+              {saveMaintenanceMessage.isPending ? "…" : "Save"}
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Feature Flags by Plan */}

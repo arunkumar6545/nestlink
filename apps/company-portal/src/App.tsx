@@ -4,17 +4,25 @@ import { useAuth } from "@/hooks/useAuth";
 import { CompanyLayout } from "@/components/layout/CompanyLayout";
 
 // ─── Pages ───────────────────────────────────────────────────────
-const LoginPage         = lazy(() => import("./pages/auth/LoginPage"));
-const DashboardPage     = lazy(() => import("./pages/dashboard/DashboardPage"));
-const SocietiesPage     = lazy(() => import("./pages/societies/SocietiesPage"));
-const OnboardPage       = lazy(() => import("./pages/societies/OnboardPage"));
-const SocietyDetailPage = lazy(() => import("./pages/societies/SocietyDetailPage"));
-const BillingPage       = lazy(() => import("./pages/billing/BillingPage"));
-const AnnouncementsPage = lazy(() => import("./pages/announcements/AnnouncementsPage"));
-const SupportPage       = lazy(() => import("./pages/support/SupportPage"));
-const AuditLogPage      = lazy(() => import("./pages/audit/AuditLogPage"));
-const TeamPage          = lazy(() => import("./pages/team/TeamPage"));
-const SettingsPage      = lazy(() => import("./pages/settings/SettingsPage"));
+const LoginPage             = lazy(() => import("./pages/auth/LoginPage"));
+const DashboardPage         = lazy(() => import("./pages/dashboard/DashboardPage"));
+const SocietiesPage         = lazy(() => import("./pages/societies/SocietiesPage"));
+const OnboardPage           = lazy(() => import("./pages/societies/OnboardPage"));
+const SocietyDetailPage     = lazy(() => import("./pages/societies/SocietyDetailPage"));
+const BillingPage           = lazy(() => import("./pages/billing/BillingPage"));
+const AnnouncementsPage     = lazy(() => import("./pages/announcements/AnnouncementsPage"));
+const SupportPage           = lazy(() => import("./pages/support/SupportPage"));
+const AuditLogPage          = lazy(() => import("./pages/audit/AuditLogPage"));
+const TeamPage              = lazy(() => import("./pages/team/TeamPage"));
+const SettingsPage          = lazy(() => import("./pages/settings/SettingsPage"));
+// New operation pages
+const AnalyticsPage         = lazy(() => import("./pages/analytics/AnalyticsPage"));
+const HealthPage            = lazy(() => import("./pages/health/HealthPage"));
+const TrialsPage            = lazy(() => import("./pages/trials/TrialsPage"));
+const UsersPage             = lazy(() => import("./pages/users/UsersPage"));
+const IncidentsPage         = lazy(() => import("./pages/incidents/IncidentsPage"));
+const OnboardingTrackerPage = lazy(() => import("./pages/onboarding/OnboardingTrackerPage"));
+const InvoicesPage          = lazy(() => import("./pages/invoices/InvoicesPage"));
 
 // ─── Auth guard ───────────────────────────────────────────────────
 
@@ -71,6 +79,14 @@ export default function App() {
               <Route path="/audit"          element={<AuditLogPage />} />
               <Route path="/team"           element={<TeamPage />} />
               <Route path="/settings"       element={<SettingsPage />} />
+              {/* New operation routes */}
+              <Route path="/analytics"      element={<AnalyticsPage />} />
+              <Route path="/health"         element={<HealthPage />} />
+              <Route path="/trials"         element={<TrialsPage />} />
+              <Route path="/users"          element={<UsersPage />} />
+              <Route path="/incidents"      element={<IncidentsPage />} />
+              <Route path="/onboarding"     element={<OnboardingTrackerPage />} />
+              <Route path="/invoices"       element={<InvoicesPage />} />
             </Route>
 
             {/* Fallback */}

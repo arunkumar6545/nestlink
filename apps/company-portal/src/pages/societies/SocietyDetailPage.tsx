@@ -1,14 +1,16 @@
 // @ts-nocheck
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
   Building2, Users, ArrowLeft, MapPin, Home, Shield,
   CheckCircle2, Clock, PauseCircle, AlertTriangle,
-  MoreVertical, Trash2, ExternalLink,
+  MoreVertical, Trash2, ExternalLink, Upload,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { formatRelative } from "@/lib/utils";
+import BulkUnitUpload from "@/components/shared/BulkUnitUpload";
 
 const STATUS_CFG = {
   active:    { label: "Active",    icon: CheckCircle2, color: "text-emerald-400", bg: "bg-emerald-400/10 border-emerald-500/20" },
@@ -81,6 +83,8 @@ export default function SocietyDetailPage() {
     onError: (e: Error) => toast.error(e.message),
   });
 
+  const [showBulkUpload, setShowBulkUpload] = useState(false);
+
   if (!society) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -121,6 +125,14 @@ export default function SocietyDetailPage() {
             {society.address}, {society.city}, {society.state} {society.pincode}
           </div>
         </div>
+
+        {/* Bulk Upload */}
+        <button
+          onClick={() => setShowBulkUpload(true)}
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-600/20 border border-sky-700/30 text-sky-300 text-xs font-semibold hover:bg-sky-600/30 transition-colors"
+        >
+          <Upload className="h-3.5 w-3.5" /> Upload Units CSV
+        </button>
 
         {/* Quick change status */}
         <div className="flex gap-2 flex-wrap">
@@ -197,6 +209,18 @@ export default function SocietyDetailPage() {
           <p className="text-slate-600 text-sm text-center py-10">No members yet</p>
         )}
       </div>
+
+      {/* Bulk Unit Upload modal */}
+      {showBulkUpload && (
+        <BulkUnitUpload
+          societyId={id!}
+          onClose={() => setShowBulkUpload(false)}
+          onSuccess={() => {
+            queryClient.invalidateQueries({ queryKey: ["society-detail"] });
+            setShowBulkUpload(false);
+          }}
+        />
+      )}
 
       {/* Danger Zone */}
       <div className="rounded-2xl border border-red-900/30 bg-red-950/10 p-5">

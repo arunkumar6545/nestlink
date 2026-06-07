@@ -6,6 +6,8 @@ import {
   LayoutDashboard, Building2, Plus, CreditCard,
   Megaphone, HeadphonesIcon, ScrollText, Users,
   Settings, LogOut, ShieldCheck, Zap,
+  BarChart2, HeartPulse, Timer, Search,
+  AlertTriangle, ClipboardList, Receipt, Wrench,
 } from "lucide-react";
 
 interface NavItem { label: string; href: string; icon: React.ElementType; badge?: string }
@@ -15,7 +17,8 @@ const NAV: NavSection[] = [
   {
     label: "Platform",
     items: [
-      { label: "Dashboard",    href: "/",          icon: LayoutDashboard },
+      { label: "Dashboard",          href: "/",          icon: LayoutDashboard },
+      { label: "Platform Analytics", href: "/analytics", icon: BarChart2 },
     ],
   },
   {
@@ -23,27 +26,39 @@ const NAV: NavSection[] = [
     items: [
       { label: "All Societies",       href: "/societies",     icon: Building2 },
       { label: "Onboard New Society", href: "/societies/new", icon: Plus },
+      { label: "Society Health",      href: "/health",         icon: HeartPulse },
+      { label: "Onboarding Tracker",  href: "/onboarding",     icon: ClipboardList },
+      { label: "Trial Manager",       href: "/trials",          icon: Timer },
     ],
   },
   {
     label: "Operations",
     items: [
-      { label: "Announcements", href: "/announcements", icon: Megaphone },
-      { label: "Support Queue", href: "/support",       icon: HeadphonesIcon },
+      { label: "Announcements",     href: "/announcements", icon: Megaphone },
+      { label: "Support Queue",     href: "/support",       icon: HeadphonesIcon },
+      { label: "Platform Incidents",href: "/incidents",     icon: AlertTriangle },
+      { label: "Maintenance Mode",  href: "/settings#maintenance", icon: Wrench },
     ],
   },
   {
-    label: "Analytics",
+    label: "Finance",
     items: [
-      { label: "Revenue & Billing", href: "/billing", icon: CreditCard },
-      { label: "Audit Log",         href: "/audit",   icon: ScrollText },
+      { label: "Revenue & Billing",     href: "/billing",  icon: CreditCard },
+      { label: "Subscription Invoices", href: "/invoices", icon: Receipt },
     ],
   },
   {
-    label: "Settings",
+    label: "Users & Access",
     items: [
-      { label: "Nestlink Team",      href: "/team",     icon: Users },
-      { label: "Platform Settings",  href: "/settings", icon: Settings },
+      { label: "Global User Search", href: "/users",  icon: Search },
+      { label: "Nestlink Team",      href: "/team",   icon: Users },
+    ],
+  },
+  {
+    label: "Audit & Settings",
+    items: [
+      { label: "Audit Log",         href: "/audit",    icon: ScrollText },
+      { label: "Platform Settings", href: "/settings", icon: Settings },
     ],
   },
 ];
