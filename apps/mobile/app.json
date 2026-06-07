@@ -3,9 +3,7 @@
     "name": "Nestlink",
     "slug": "nestlink",
     "version": "1.0.0",
-    "runtimeVersion": {
-      "policy": "sdkVersion"
-    },
+    "runtimeVersion": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -61,9 +59,9 @@
     "scheme": "nestlink",
     "extra": {
       "eas": {
-        "projectId": "REPLACE_WITH_YOUR_EAS_PROJECT_ID"
+        "projectId": "9d3cfc42-9e9a-499e-8157-7f92760b002e"
       }
     },
-    "owner": "REPLACE_WITH_YOUR_EXPO_USERNAME"
+    "owner": "arunkumar6545"
   }
 }
