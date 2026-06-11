@@ -28,6 +28,7 @@
     "expo-status-bar": "~2.0.1",
     "expo-system-ui": "~4.0.6",
     "nativewind": "^4.0.36",
+    "react-native-css-interop": "0.2.5",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-hook-form": "^7.54.2",
